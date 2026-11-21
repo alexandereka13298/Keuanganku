@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Keuanganku</title>
+<meta name="theme-color" content="#2A8FE0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Keuanganku">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  html,body{margin:0;height:100%;background:#fff;overflow:hidden}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
+  #splash{position:fixed;inset:0;display:grid;place-items:center;background:#2A8FE0;transition:opacity .4s}
+  #splash img{width:96px;height:96px;border-radius:24px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+  #pesan{position:fixed;inset:0;display:none;place-items:center;padding:24px;text-align:center;font:16px/1.5 system-ui,sans-serif;color:#0f172a;background:#fff}
+</style>
+</head>
+<body>
+<div id="splash"><img src="icon-192.png" alt=""></div>
+<div id="pesan"></div>
+<iframe id="app" title="Keuanganku" allow="clipboard-write; fullscreen"></iframe>
+<script>
+  /* ==== SATU-SATUNYA YANG PERLU DIUBAH: tempel URL web app Apps Script (berakhiran /exec) ==== */
+  var APP_URL = 'https://script.google.com/a/macros/loyola-smg.sch.id/s/AKfycbxPC9XgNCMbe-YECGrtsd9IMDt7vA2EqzvxcdEpzRo29U-jyrbAPU9ShOLkVkJrjhTE/exec';
+  /* ======================================================================================== */
+
+  var f = document.getElementById('app');
+  if (!/^https:\/\/script\.google\.com\/.+\/exec/.test(APP_URL)) {
+    var p = document.getElementById('pesan');
+    p.style.display = 'grid';
+    p.textContent = 'URL web app belum diisi. Buka index.html lalu ganti nilai APP_URL.';
+    document.getElementById('splash').style.display = 'none';
+  } else {
+    f.src = APP_URL;
+    f.addEventListener('load', function () {
+      var s = document.getElementById('splash');
+      s.style.opacity = 0; setTimeout(function () { s.style.display = 'none'; }, 450);
+    });
+  }
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
+</script>
+</body>
+</html>
